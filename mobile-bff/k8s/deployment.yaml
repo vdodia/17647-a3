@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mobile-bff
+  namespace: bookstore-ns
+  labels:
+    app: mobile-bff
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mobile-bff
+  template:
+    metadata:
+      labels:
+        app: mobile-bff
+    spec:
+      containers:
+        - name: mobile-bff
+          image: ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/bookstore/mobile-bff:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          env:
+            - name: URL_CUSTOMER_SERVICE
+              value: "http://customer-service.bookstore-ns.svc.cluster.local:3000"
+            - name: URL_BOOK_SERVICE
+              value: "http://book-service.bookstore-ns.svc.cluster.local:3000"
+          livenessProbe:
+            httpGet:
+              path: /status
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
