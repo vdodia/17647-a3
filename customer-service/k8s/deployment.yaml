@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: customer-service
-          image: ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/bookstore/customer-service:latest
+          image: 215828453142.dkr.ecr.us-east-1.amazonaws.com/bookstore/customer-service:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 3000

@@ -1,0 +1,29 @@
+Important information for A3 (new LL course, demo, Kafka brokers, recommendation service)
+
+Hey folks,
+
+A3 is now published. It is considerably more involved than the other two assignments, so please start early!
+
+New LL Course: You all should have received an invite to a new LL course (161163). Once you are done with A2, you can move on to this LL instance. Do note that the configuration for A3 is more expensive, so please make sure you delete all resources you have created once you are done to avoid accruing unnecessary  charges.
+
+Second Demo: We are planning on recording a second demo video to go over the infrastructure setup for A3. We will make the recording available over the weekend. Please watch the demo before you set up your infrastructure for A3. In particular, there are additional steps associated with permissions that you need to follow for things to work. 
+
+Kafka Brokers: You will be working with Kafka on A3. We have created a cluster with three Kafka brokers. The IP addresses of the brokers for you to use in your application are:
+
+    98.88.99.206:9092
+    34.195.107.7:9092
+    54.221.160.63:9092
+
+The Kafka config in your application should use all three brokers (see the A3 description for more details). If you run into any issues with the brokers, let us know and we will debug.
+
+Recommendation service: We have deployed the recommendation service for you to use, but you should also deploy it locally for testing prior to AWS deployment. (You can pull from Docker Hub; more info in the A3 writeup.) Here are the options you have for the service:
+Location 	API Documentation 	Delay 	Purpose
+http://34.195.107.7 	http://34.195.107.7/swagger-ui.html 	Zero 	Testing locally or on AWS (prior to submission)
+http://54.221.160.63 	http://54.221.160.63/swagger-ui.html 	Varies 	Submitting on Gradescope
+http://localhost:<port> 	http://localhost:<port>/swagger-ui.html 	As you choose 	Testing locally prior to AWS deployment
+
+When you are ready to submit to Gradescope, please make sure you configure your Book service to use the second IP address.
+
+Cheers,
+
+Hammad

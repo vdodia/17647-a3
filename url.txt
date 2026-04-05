@@ -1,4 +1,4 @@
-http://REPLACE_WITH_WEB_BFF_LOADBALANCER_HOSTNAME:80
-http://REPLACE_WITH_MOBILE_BFF_LOADBALANCER_HOSTNAME:80
+http://ab5e5fa922af145bc9d3992b5c335aab-1358963587.us-east-1.elb.amazonaws.com:80
+http://a2d2e6e65f73c4b6f9554efc5126020c-1740000356.us-east-1.elb.amazonaws.com:80
 vdodia
-REPLACE_WITH_SENDER_EMAIL@gmail.com
+dodiavirensinh@gmail.com

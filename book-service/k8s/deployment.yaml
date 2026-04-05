@@ -6,7 +6,7 @@ metadata:
   labels:
     app: book-service
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: book-service
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: book-service
-          image: ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/bookstore/book-service:latest
+          image: 215828453142.dkr.ecr.us-east-1.amazonaws.com/bookstore/book-service:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 3000

@@ -10,7 +10,9 @@ KAFKA_BROKERS = os.environ.get(
 KAFKA_TOPIC = os.environ.get("KAFKA_TOPIC", "vdodia.customer.evt")
 KAFKA_GROUP_ID = os.environ.get("KAFKA_GROUP_ID", "vdodia-crm-group")
 
-AWS_REGION = os.environ.get("AWS_REGION", "us-east-1")
-SES_SENDER = os.environ.get("SES_SENDER", "")
+SMTP_HOST = os.environ.get("SMTP_HOST", "smtp.gmail.com")
+SMTP_PORT = int(os.environ.get("SMTP_PORT", 587))
+SMTP_USER = os.environ.get("SMTP_USER", "")
+SMTP_PASSWORD = os.environ.get("SMTP_PASSWORD", "")
 
 ANDREW_ID = os.environ.get("ANDREW_ID", "vdodia")

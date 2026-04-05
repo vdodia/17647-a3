@@ -212,7 +212,7 @@ def get_related_books(isbn: str):
         return "", 503
 
     try:
-        url = f"{config.RECOMMENDATION_SERVICE_URL}/recommendations/{isbn}"
+        url = f"{config.RECOMMENDATION_SERVICE_URL}/recommended-titles/isbn/{isbn}"
         resp = http_requests.get(url, timeout=3)
     except (http_requests.exceptions.Timeout, http_requests.exceptions.ConnectionError):
         recommendation_cb.record_failure()
@@ -225,4 +225,9 @@ def get_related_books(isbn: str):
     if resp.status_code == 204 or not resp.content:
         return "", 204
 
-    return jsonify(resp.json()), 200
+    raw = resp.json()
+    result = [
+        {"ISBN": item.get("isbn", ""), "title": item.get("title", ""), "Author": item.get("authors", "")}
+        for item in raw
+    ]
+    return jsonify(result), 200

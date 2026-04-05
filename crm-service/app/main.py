@@ -1,13 +1,13 @@
 """
 main.py – CRM service: Kafka consumer that sends welcome emails to new customers.
-
-Uses AWS SES for email delivery. The EKS node's IAM role (LabRole) provides
-credentials automatically via the instance metadata service -- no secrets needed.
+Uses Gmail SMTP (app password) for email delivery.
 """
 import json
+import smtplib
 import logging
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
-import boto3
 from kafka import KafkaConsumer
 from app import config
 
@@ -17,19 +17,19 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-ses_client = boto3.client("ses", region_name=config.AWS_REGION)
-
 
 def send_email(to_address: str, subject: str, body: str) -> None:
-    ses_client.send_email(
-        Source=config.SES_SENDER,
-        Destination={"ToAddresses": [to_address]},
-        Message={
-            "Subject": {"Data": subject},
-            "Body": {"Text": {"Data": body}},
-        },
-    )
-    logger.info("Email sent via SES to %s", to_address)
+    msg = MIMEMultipart()
+    msg["From"] = config.SMTP_USER
+    msg["To"] = to_address
+    msg["Subject"] = subject
+    msg.attach(MIMEText(body, "plain"))
+
+    with smtplib.SMTP(config.SMTP_HOST, config.SMTP_PORT) as server:
+        server.starttls()
+        server.login(config.SMTP_USER, config.SMTP_PASSWORD)
+        server.send_message(msg)
+    logger.info("Email sent to %s", to_address)
 
 
 def handle_customer_event(message_value: dict) -> None:

@@ -17,16 +17,26 @@ spec:
     spec:
       containers:
         - name: crm-service
-          image: ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/bookstore/crm-service:latest
+          image: 215828453142.dkr.ecr.us-east-1.amazonaws.com/bookstore/crm-service:latest
           imagePullPolicy: Always
           env:
             - name: KAFKA_BROKERS
               value: "98.88.99.206:9092,34.195.107.7:9092,54.221.160.63:9092"
             - name: KAFKA_TOPIC
               value: vdodia.customer.evt
-            - name: AWS_REGION
-              value: us-east-1
-            - name: SES_SENDER
-              value: SES_SENDER_EMAIL
+            - name: SMTP_HOST
+              value: smtp.gmail.com
+            - name: SMTP_PORT
+              value: "587"
+            - name: SMTP_USER
+              valueFrom:
+                secretKeyRef:
+                  name: email-credentials
+                  key: smtp-user
+            - name: SMTP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: email-credentials
+                  key: smtp-password
             - name: ANDREW_ID
               value: vdodia

@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: mobile-bff
-          image: ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/bookstore/mobile-bff:latest
+          image: 215828453142.dkr.ecr.us-east-1.amazonaws.com/bookstore/mobile-bff:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 80

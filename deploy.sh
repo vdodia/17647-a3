@@ -75,7 +75,7 @@ setup_ses() {
 }
 
 create_secrets() {
-    echo ">>> Creating K8S secrets (DB credentials + Gemini API key)..."
+    echo ">>> Creating K8S secrets (DB + Gemini + Gmail SMTP)..."
     read -rp "DB Host (RDS writer endpoint): " DB_HOST
     read -rp "DB Username: " DB_USER
     read -rsp "DB Password: " DB_PASS
@@ -83,13 +83,17 @@ create_secrets() {
 
     local gemini_key="${GEMINI_API_KEY:-}"
     if [ -z "${gemini_key}" ]; then
-        read -rsp "Gemini API key (or set GEMINI_API_KEY and re-run): " gemini_key
+        read -rsp "Gemini API key (or set GEMINI_API_KEY env var): " gemini_key
         echo ""
     fi
     if [ -z "${gemini_key}" ]; then
         echo "ERROR: Gemini API key is required." >&2
         exit 1
     fi
+
+    read -rp "Gmail address (SMTP sender): " SMTP_USER
+    read -rsp "Gmail app password: " SMTP_PASS
+    echo ""
 
     kubectl create secret generic db-credentials \
         --namespace=bookstore-ns \
@@ -103,7 +107,13 @@ create_secrets() {
         --from-literal=gemini-api-key="${gemini_key}" \
         --dry-run=client -o yaml | kubectl apply -f -
 
-    echo ">>> Secrets created/updated. (No email secrets needed -- SES uses IAM role.)"
+    kubectl create secret generic email-credentials \
+        --namespace=bookstore-ns \
+        --from-literal=smtp-user="${SMTP_USER}" \
+        --from-literal=smtp-password="${SMTP_PASS}" \
+        --dry-run=client -o yaml | kubectl apply -f -
+
+    echo ">>> All secrets created/updated."
 }
 
 deploy_k8s() {
